@@ -5,7 +5,11 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "prisma": {
+    "schema": "src/database/schema.prisma"
+  },
   "scripts": {
+    "prisma:generate": "pnpm dlx prisma generate",
     "prisma:dev:deploy": "prisma migrate deploy",
     "db:dev:rm": "docker compose rm dev-db -s -f -v",
     "db:dev:up": "docker compose up dev-db -d",
@@ -32,6 +36,7 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@prisma/client": "^4.13.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },
@@ -45,6 +50,7 @@
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "dotenv-cli": "^7.2.1",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
