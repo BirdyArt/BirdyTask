@@ -19,3 +19,17 @@ services:
       POSTGRES_DB: birdy_task_test
     ports:
       - '5435:5432'
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      # Only will build development stage from our dockerfile
+      target: development
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: 'postgresql://admin:password@dev-db:5434/birdy_task_dev?schema=public'
+    # Run a command against the development stage of the image
+    command: pnpm start:dev
+    ports:
+      - 3000:3000
