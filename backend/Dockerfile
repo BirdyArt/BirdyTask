@@ -12,7 +12,6 @@ COPY --chown=node:node pnpm-lock.yaml ./
 RUN pnpm fetch --prod
 
 COPY --chown=node:node . .
-RUN pnpm install
 RUN pnpm prisma:generate
 
 USER node
