@@ -20,16 +20,21 @@ services:
     ports:
       - '5435:5432'
   api:
+    depends_on:
+      - dev-db
     build:
       dockerfile: Dockerfile
       context: .
       # Only will build development stage from our dockerfile
       target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     env_file:
       - .env
     environment:
-      DATABASE_URL: 'postgresql://admin:password@dev-db:5434/birdy_task_dev?schema=public'
+      DATABASE_URL: 'postgresql://admin:password@dev-db:5432/birdy_task_dev?schema=public'
     # Run a command against the development stage of the image
-    command: pnpm start:dev
+    command: pnpm start:dev:migrate
     ports:
       - 3000:3000
