@@ -1,17 +1,17 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
-import { AuthDto } from './dto';
-import * as argon from 'argon2';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
+import { ForbiddenException, Injectable } from "@nestjs/common";
+import { PrismaService } from "../prisma/prisma.service";
+import { Prisma } from "@prisma/client";
+import { AuthDto } from "./dto";
+import * as argon from "argon2";
+import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwt: JwtService,
-    private config: ConfigService,
+    private config: ConfigService
   ) {}
   async signup(dto: AuthDto) {
     // generate password hash
@@ -27,9 +27,9 @@ export class AuthService {
       // return the saved user
       return this.signToken(user.id, user.email);
     } catch (error) {
-      if (error instanceof Prisma['PrismaClientKnownRequestError']) {
-        if (error.code === 'P2002') {
-          throw new ForbiddenException('These credentials are taken');
+      if (error instanceof Prisma["PrismaClientKnownRequestError"]) {
+        if (error.code === "P2002") {
+          throw new ForbiddenException("These credentials are taken");
         }
       }
       throw error;
@@ -43,18 +43,18 @@ export class AuthService {
       },
     });
     // if user doesn't exist throw an exception
-    if (!user) throw new ForbiddenException('Credentials are incorrect');
+    if (!user) throw new ForbiddenException("Credentials are incorrect");
     // compare passwords
     const pwMatches = await argon.verify(user.hash, dto.password);
     // if password incorrect throw an exception
-    if (!pwMatches) throw new ForbiddenException('Credentials are incorrect');
+    if (!pwMatches) throw new ForbiddenException("Credentials are incorrect");
     // return the saved user
     return this.signToken(user.id, user.email);
   }
 
   async signToken(
     userId: number,
-    email: string,
+    email: string
   ): Promise<{ access_token: string }> {
     const payload = {
       sub: userId,
@@ -62,8 +62,8 @@ export class AuthService {
     };
 
     const token = await this.jwt.signAsync(payload, {
-      expiresIn: '15m',
-      secret: this.config.get('JWT_SECRET'),
+      expiresIn: "15m",
+      secret: this.config.get("JWT_SECRET"),
     });
 
     return {

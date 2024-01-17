@@ -10,44 +10,44 @@ import {
   Patch,
   Post,
   UseGuards,
-} from '@nestjs/common';
-import { JwtGuard } from '../auth/guard';
-import { TaskService } from './task.service';
-import { GetUser } from '../auth/decorator';
-import { CreateTaskDto, EditTaskDto } from './dto';
+} from "@nestjs/common";
+import { JwtGuard } from "../auth/guard";
+import { TaskService } from "./task.service";
+import { GetUser } from "../auth/decorator";
+import { CreateTaskDto, EditTaskDto } from "./dto";
 
 @UseGuards(JwtGuard)
-@Controller('tasks')
+@Controller("tasks")
 export class TaskController {
   constructor(private taskService: TaskService) {}
   @Get()
-  getTasks(@GetUser('id') userId: number) {
+  getTasks(@GetUser("id") userId: number) {
     return this.taskService.getTasks(userId);
   }
-  @Get(':id')
+  @Get(":id")
   getTaskById(
-    @GetUser('id') userId: number,
-    @Param('id', ParseIntPipe) taskId: number,
+    @GetUser("id") userId: number,
+    @Param("id", ParseIntPipe) taskId: number
   ) {
     return this.taskService.getTaskById(userId, taskId);
   }
   @Post()
-  createTask(@GetUser('id') userId: number, @Body() dto: CreateTaskDto) {
+  createTask(@GetUser("id") userId: number, @Body() dto: CreateTaskDto) {
     return this.taskService.createTask(userId, dto);
   }
-  @Patch(':id')
+  @Patch(":id")
   editTaskById(
-    @GetUser('id') userId: number,
+    @GetUser("id") userId: number,
     @Body() dto: EditTaskDto,
-    @Param('id', ParseIntPipe) taskId: number,
+    @Param("id", ParseIntPipe) taskId: number
   ) {
     return this.taskService.editTaskById(userId, dto, taskId);
   }
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Delete(':id')
+  @Delete(":id")
   deleteTaskById(
-    @GetUser('id') userId: number,
-    @Param('id', ParseIntPipe) taskId: number,
+    @GetUser("id") userId: number,
+    @Param("id", ParseIntPipe) taskId: number
   ) {
     return this.taskService.deleteTaskById(userId, taskId);
   }

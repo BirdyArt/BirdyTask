@@ -1,6 +1,6 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
-import { CreateTaskDto, EditTaskDto } from './dto';
-import { PrismaService } from '../prisma/prisma.service';
+import { ForbiddenException, Injectable } from "@nestjs/common";
+import { CreateTaskDto, EditTaskDto } from "./dto";
+import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class TaskService {
@@ -39,7 +39,7 @@ export class TaskService {
     });
     // check if user owns the task
     if (!task || task.userId !== userId)
-      throw new ForbiddenException('Access to resource denied');
+      throw new ForbiddenException("Access to resource denied");
 
     // update the task
     return this.prisma.task.update({
@@ -61,7 +61,7 @@ export class TaskService {
     });
     // check if user owns the task
     if (!task || task.userId !== userId)
-      throw new ForbiddenException('Access to resource denied');
+      throw new ForbiddenException("Access to resource denied");
 
     await this.prisma.task.delete({
       where: {
