@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { StyleFunctionProps, extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
   fonts: {
@@ -18,6 +18,13 @@ const theme = extendTheme({
       900: "#2E2E2E",
     },
     secondary: "#F3F3F3",
+  },
+  styles: {
+    global: (props: StyleFunctionProps) => ({
+      body: {
+        bg: props.colorMode === "dark" ? "primary.900" : "secondary",
+      },
+    }),
   },
 });
 

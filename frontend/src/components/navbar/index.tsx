@@ -4,16 +4,18 @@ import {
   Icon,
   Flex,
   Stack,
-  Button,
   Link,
   Heading,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { List, X } from "@phosphor-icons/react";
 import { useState } from "react";
+import Login from "../login";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
     <Flex
@@ -61,7 +63,7 @@ const NavBar = () => {
           pt={[4, 4, 0, 0]}
         >
           <Link fontSize={22} href={"/"} color="primary.900">
-            Home
+            Backlog
           </Link>
           <Image
             display={{ base: "none", md: "block" }}
@@ -70,34 +72,12 @@ const NavBar = () => {
             alt="BirdyTask logo"
           />
           <Link fontSize={22} href={"/tasks"} color="primary.900">
-            Tasks
+            Taskboard
           </Link>
-          <Button
-            display={{ base: "block", md: "none" }}
-            size="md"
-            rounded="md"
-            color="secondary"
-            bg="primary.900"
-            _hover={{
-              bg: "primary.600",
-            }}
-          >
-            Login
-          </Button>
+          {isMobile ? <Login /> : null}
         </Stack>
       </Box>
-      <Button
-        display={{ base: "none", md: "block" }}
-        size="md"
-        rounded="md"
-        color="secondary"
-        bg="primary.900"
-        _hover={{
-          bg: "primary.600",
-        }}
-      >
-        Login
-      </Button>
+      {isMobile ? null : <Login />}
     </Flex>
   );
 };
