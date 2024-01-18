@@ -15,18 +15,7 @@ const Login = () => {
 
   return (
     <>
-      <Button
-        size="md"
-        rounded="md"
-        color="secondary"
-        bg="primary.900"
-        _hover={{
-          bg: "primary.600",
-        }}
-        onClick={onOpen}
-      >
-        Login
-      </Button>
+      <Button onClick={onOpen}>Login</Button>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>

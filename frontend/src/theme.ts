@@ -1,4 +1,5 @@
 import { StyleFunctionProps, extendTheme } from "@chakra-ui/react";
+import { Button } from "./components/button";
 
 const theme = extendTheme({
   fonts: {
@@ -25,6 +26,9 @@ const theme = extendTheme({
         bg: props.colorMode === "dark" ? "primary.900" : "secondary",
       },
     }),
+  },
+  components: {
+    Button,
   },
 });
 
