@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Modal,
   ModalBody,
@@ -15,7 +16,9 @@ const Login = () => {
 
   return (
     <>
-      <Button onClick={onOpen}>Login</Button>
+      <Box pb={2}>
+        <Button onClick={onOpen}>Login</Button>
+      </Box>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>

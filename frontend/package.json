@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
+    "@chakra-ui/theme-tools": "^2.1.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@fontsource/staatliches": "^5.0.18",

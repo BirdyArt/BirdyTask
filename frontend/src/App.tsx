@@ -4,7 +4,7 @@ import "@fontsource/staatliches";
 
 function App() {
   return (
-    <Box bg="secondary" h={window.innerHeight}>
+    <Box h={window.innerHeight}>
       <NavBar />
     </Box>
   );

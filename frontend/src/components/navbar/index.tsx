@@ -7,15 +7,19 @@ import {
   Link,
   Heading,
   useBreakpointValue,
+  useColorModeValue,
+  IconButton,
 } from "@chakra-ui/react";
 import { List, X } from "@phosphor-icons/react";
 import { useState } from "react";
 import Login from "../login";
+import ColorModeSwitch from "../color-mode-switch";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const isMobile = useBreakpointValue({ base: true, md: false });
+  const color = useColorModeValue("primary.900", "secondary");
 
   return (
     <Flex
@@ -27,30 +31,54 @@ const NavBar = () => {
       mb={8}
       py={4}
       px={8}
-      bg={["secondary", "secondary", "transparent", "transparent"]}
-      color={["secondary", "secondary", "primary.900", "primary.900"]}
     >
-      <Image
-        display={{ base: "block", md: "none" }}
-        h={10}
-        src="logo.svg"
-        alt="BirdyTask logo"
-      />
+      <Flex
+        align="center"
+        justify="center"
+        w={20}
+        h={20}
+        rounded={50}
+        display={{ base: "flex", md: "none" }}
+        bg="secondary"
+      >
+        <Image
+          display={{ base: "block", md: "none" }}
+          h={10}
+          src="logo.svg"
+          alt="BirdyTask logo"
+        />
+      </Flex>
       <Heading
         display={{ base: "none", md: "block" }}
-        fontSize={30}
+        fontSize={52}
+        lineHeight={"40px"}
         fontWeight={600}
-        color="primary.900"
+        pt={1}
+        pb={2}
       >
         Birdy Task
       </Heading>
-      <Box display={{ base: "block", md: "none" }} onClick={toggle}>
-        {isOpen ? (
-          <Icon color="primary.900" fontSize={32} weight="bold" as={X} />
-        ) : (
-          <Icon color="primary.900" fontSize={32} weight="bold" as={List} />
-        )}
-      </Box>
+      <Flex
+        align="center"
+        justify="center"
+        display={{ base: "flex", md: "none" }}
+      >
+        {isMobile ? <ColorModeSwitch /> : null}
+        <IconButton
+          variant="icon"
+          aria-label="Color mode switch"
+          color="secondary"
+          mb={2}
+          onClick={toggle}
+          icon={
+            isOpen ? (
+              <Icon fontSize={32} weight="bold" color={color} as={X} />
+            ) : (
+              <Icon fontSize={32} weight="bold" color={color} as={List} />
+            )
+          }
+        />
+      </Flex>
       <Box
         display={{ base: isOpen ? "block" : "none", md: "block" }}
         flexBasis={{ base: "100%", md: "auto" }}
@@ -62,22 +90,37 @@ const NavBar = () => {
           direction={["column", "column", "row", "row"]}
           pt={[4, 4, 0, 0]}
         >
-          <Link fontSize={22} href={"/"} color="primary.900">
+          {isMobile ? <Login /> : null}
+          <Link fontSize={22} href={"/"}>
             Backlog
           </Link>
-          <Image
-            display={{ base: "none", md: "block" }}
-            h={12}
-            src="logo.svg"
-            alt="BirdyTask logo"
-          />
-          <Link fontSize={22} href={"/tasks"} color="primary.900">
+          <Flex
+            align="center"
+            justify="center"
+            w={20}
+            h={20}
+            rounded={50}
+            display={{ base: "none", md: "flex" }}
+            bg="secondary"
+          >
+            <Image
+              display={{ base: "none", md: "block" }}
+              h={10}
+              src="logo.svg"
+              alt="BirdyTask logo"
+            />
+          </Flex>
+          <Link fontSize={22} href={"/tasks"}>
             Taskboard
           </Link>
-          {isMobile ? <Login /> : null}
         </Stack>
       </Box>
-      {isMobile ? null : <Login />}
+      {isMobile ? null : (
+        <Flex>
+          <ColorModeSwitch />
+          <Login />
+        </Flex>
+      )}
     </Flex>
   );
 };

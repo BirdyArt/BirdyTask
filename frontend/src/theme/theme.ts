@@ -1,5 +1,7 @@
 import { StyleFunctionProps, extendTheme } from "@chakra-ui/react";
-import { Button } from "./components/button";
+import { Button } from "./button";
+import { mode } from "@chakra-ui/theme-tools";
+import { Heading } from "./heading";
 
 const theme = extendTheme({
   fonts: {
@@ -23,12 +25,17 @@ const theme = extendTheme({
   styles: {
     global: (props: StyleFunctionProps) => ({
       body: {
-        bg: props.colorMode === "dark" ? "primary.900" : "secondary",
+        bg: mode("secondary", "primary.900")(props),
       },
     }),
   },
   components: {
     Button,
+    Heading,
+  },
+  config: {
+    initialColorMode: "system",
+    useSystemColorMode: true,
   },
 });
 
