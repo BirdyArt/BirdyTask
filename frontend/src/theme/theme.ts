@@ -3,7 +3,6 @@ import { Button } from "./button";
 import { mode } from "@chakra-ui/theme-tools";
 import { Heading } from "./heading";
 import { Modal } from "./modal";
-import { Input } from "./input";
 
 const theme = extendTheme({
   fonts: {
@@ -35,7 +34,6 @@ const theme = extendTheme({
     Button,
     Heading,
     Modal,
-    Input,
   },
   config: {
     initialColorMode: "system",
