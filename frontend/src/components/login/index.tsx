@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -24,23 +25,16 @@ const Login = () => {
         <ModalContent>
           <ModalHeader>Login</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>Please login</ModalBody>
-
+          <ModalBody>
+            Please provide your credentials to login.
+            <Input my={2} variant="filled" placeholder="Email" />
+            <Input variant="filled" placeholder="Password" />
+          </ModalBody>
           <ModalFooter>
-            <Button
-              size="md"
-              rounded="md"
-              color="secondary"
-              bg="primary.900"
-              _hover={{
-                bg: "primary.600",
-              }}
-              mr={3}
-              onClick={onClose}
-            >
+            <Button mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant="ghost">Login</Button>
+            <Button>Login</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
