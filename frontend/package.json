@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/staatliches": "^5.0.18",
     "@phosphor-icons/react": "^2.0.15",
+    "axios": "^1.6.5",
     "framer-motion": "^10.18.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

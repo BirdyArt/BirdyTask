@@ -15,6 +15,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { login } from "../../api/auth";
 
 const Login = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,16 +26,17 @@ const Login = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  console.log(errors);
-
-  function onSubmit(values: any) {
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        resolve();
-      }, 3000);
-    });
-  }
+  const onSubmit = async (values: any) => {
+    try {
+      const { access_token } = await login({
+        email: values.email,
+        password: values.password,
+      });
+      console.log(access_token);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -86,8 +88,8 @@ const Login = () => {
                   {...register("password", {
                     required: "This is required",
                     minLength: {
-                      value: 8,
-                      message: "Password minimum length should be 8",
+                      value: 4,
+                      message: "Password minimum length should be 4",
                     },
                   })}
                 />
