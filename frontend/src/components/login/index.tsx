@@ -17,6 +17,7 @@ import {
   ModalOverlay,
   useColorModeValue,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { login } from "../../api/auth";
@@ -28,10 +29,12 @@ import { Eye, EyeClosed } from "@phosphor-icons/react";
 const Login = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [show, setShow] = useState(false);
+  const toast = useToast();
   const color = useColorModeValue("primary.900", "secondary");
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm();
 
@@ -48,9 +51,27 @@ const Login = () => {
       const user = await getLoggedInUserInfo();
       console.log(user);
       onClose();
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (error.response.status === 401)
+        toast({
+          title: "Incorrect email or password.",
+          position: "top",
+          description: "Please try again with correct credentials.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      if (error.response.status === 409)
+        toast({
+          title: "User already exists.",
+          description:
+            "Please try different email or login in existing account.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
     }
+    reset();
   };
 
   return (
