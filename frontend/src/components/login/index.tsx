@@ -3,7 +3,11 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
+  Icon,
+  IconButton,
   Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -18,15 +22,20 @@ import { useForm } from "react-hook-form";
 import { login } from "../../api/auth";
 import { axios } from "../../api/axios";
 import { getLoggedInUserInfo } from "../../api/users";
+import { useState } from "react";
+import { Eye, EyeClosed } from "@phosphor-icons/react";
 
 const Login = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [show, setShow] = useState(false);
   const color = useColorModeValue("primary.900", "secondary");
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
   } = useForm();
+
+  const handleClick = () => setShow(!show);
 
   const onSubmit = async (values: any) => {
     try {
@@ -79,25 +88,56 @@ const Login = () => {
                 <FormErrorMessage>
                   {errors.email && errors.email.message?.toString()}
                 </FormErrorMessage>
-                <Input
-                  id="password"
-                  mt={2}
-                  variant="filled"
-                  placeholder="Password"
-                  borderColor={errors.password ? "red.500" : color}
-                  sx={{
-                    "&:focus": {
-                      borderColor: errors.password ? "red.500" : color,
-                    },
-                  }}
-                  {...register("password", {
-                    required: "This is required",
-                    minLength: {
-                      value: 4,
-                      message: "Password minimum length should be 4",
-                    },
-                  })}
-                />
+                <InputGroup>
+                  <Input
+                    id="password"
+                    mt={2}
+                    variant="filled"
+                    placeholder="Password"
+                    borderColor={errors.password ? "red.500" : color}
+                    type={show ? "text" : "password"}
+                    sx={{
+                      "&:focus": {
+                        borderColor: errors.password ? "red.500" : color,
+                      },
+                    }}
+                    {...register("password", {
+                      required: "This is required",
+                      minLength: {
+                        value: 4,
+                        message: "Password minimum length should be 4",
+                      },
+                    })}
+                  />
+                  <InputRightElement>
+                    <IconButton
+                      variant="icon"
+                      aria-label="Show or hide password"
+                      color="secondary"
+                      backgroundColor="transparent"
+                      onClick={handleClick}
+                      size="sm"
+                      mt={4}
+                      icon={
+                        show ? (
+                          <Icon
+                            fontSize={24}
+                            weight="bold"
+                            color={color}
+                            as={EyeClosed}
+                          />
+                        ) : (
+                          <Icon
+                            fontSize={24}
+                            weight="bold"
+                            color={color}
+                            as={Eye}
+                          />
+                        )
+                      }
+                    />
+                  </InputRightElement>
+                </InputGroup>
                 <FormErrorMessage>
                   {errors.password && errors.password.message?.toString()}
                 </FormErrorMessage>
