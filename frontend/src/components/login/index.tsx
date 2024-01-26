@@ -34,8 +34,8 @@ const Login = () => {
         email: values.email,
         password: values.password,
       });
-      axios.defaults.headers.common["Authorization"] = access_token;
-      localStorage.setItem("access_token", access_token);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+      localStorage.setItem("access_token", `Bearer ${access_token}`);
       const user = await getLoggedInUserInfo();
       console.log(user);
     } catch (error) {
