@@ -16,6 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { login } from "../../api/auth";
+import { axios } from "../../api/axios";
+import { getLoggedInUserInfo } from "../../api/users";
 
 const Login = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,7 +34,10 @@ const Login = () => {
         email: values.email,
         password: values.password,
       });
-      console.log(access_token);
+      axios.defaults.headers.common["Authorization"] = access_token;
+      localStorage.setItem("access_token", access_token);
+      const user = await getLoggedInUserInfo();
+      console.log(user);
     } catch (error) {
       console.log(error);
     }
