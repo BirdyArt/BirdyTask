@@ -47,6 +47,7 @@ const Login = () => {
       localStorage.setItem("access_token", `Bearer ${access_token}`);
       const user = await getLoggedInUserInfo();
       console.log(user);
+      onClose();
     } catch (error) {
       console.log(error);
     }
