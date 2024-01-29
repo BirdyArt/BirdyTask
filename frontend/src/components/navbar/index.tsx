@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { List, X } from "@phosphor-icons/react";
 import { useState } from "react";
-import Login from "../login";
+import Login from "../auth";
 import ColorModeSwitch from "../color-mode-switch";
 
 const NavBar = () => {
