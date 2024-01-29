@@ -21,6 +21,8 @@ import { axios } from "../../api/axios";
 import { getLoggedInUserInfo } from "../../api/users";
 import { useState } from "react";
 import { Eye, EyeClosed } from "@phosphor-icons/react";
+import { useSetRecoilState } from "recoil";
+import { userInfoState } from "../../state/user-info/UserInfoState";
 
 const Login = ({
   onClose,
@@ -32,6 +34,7 @@ const Login = ({
   const [show, setShow] = useState(false);
   const toast = useToast();
   const color = useColorModeValue("primary.900", "secondary");
+  const setUserInfo = useSetRecoilState(userInfoState);
   const {
     handleSubmit,
     register,
@@ -50,7 +53,7 @@ const Login = ({
       axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
       localStorage.setItem("access_token", `Bearer ${access_token}`);
       const user = await getLoggedInUserInfo();
-      console.log(user);
+      setUserInfo(user);
       onClose();
     } catch (error: any) {
       switch (error.response.status) {
