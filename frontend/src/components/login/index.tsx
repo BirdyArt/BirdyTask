@@ -52,24 +52,37 @@ const Login = () => {
       console.log(user);
       onClose();
     } catch (error: any) {
-      if (error.response.status === 401)
-        toast({
-          title: "Incorrect email or password.",
-          position: "top",
-          description: "Please try again with correct credentials.",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-      if (error.response.status === 409)
-        toast({
-          title: "User already exists.",
-          description:
-            "Please try different email or login in existing account.",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
+      switch (error.response.status) {
+        case 401:
+          toast({
+            title: "Incorrect email or password.",
+            position: "top",
+            description: "Please try again with correct credentials.",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+          break;
+        case 409:
+          toast({
+            title: "User already exists.",
+            description:
+              "Please try different email or login in existing account.",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+          break;
+        default:
+          toast({
+            title: "Unknown error occurred.",
+            description: "Please try again later.",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+          break;
+      }
     }
     reset();
   };
