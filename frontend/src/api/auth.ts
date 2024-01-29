@@ -12,3 +12,16 @@ export async function login({ email, password }: any) {
   );
   return data;
 }
+
+export async function signup({ firstName, lastName, email, password }: any) {
+  const { data }: { data: { access_token: string } } = await axios.post(
+    ENDPOINT + "/signup",
+    {
+      firstName,
+      lastName,
+      email,
+      password,
+    }
+  );
+  return data;
+}

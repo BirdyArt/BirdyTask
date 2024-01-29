@@ -7,9 +7,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import Login from "./login";
+import { useState } from "react";
+import Signup from "./signup";
 
 const Auth = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isLogin, setIsLogin] = useState(true);
+
+  const handleShowLoginOrSignup = () => setIsLogin(!isLogin);
 
   return (
     <>
@@ -19,7 +24,17 @@ const Auth = () => {
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <Login onClose={onClose} />
+          {isLogin ? (
+            <Login
+              onClose={onClose}
+              handleShowLoginOrSignup={handleShowLoginOrSignup}
+            />
+          ) : (
+            <Signup
+              onClose={onClose}
+              handleShowLoginOrSignup={handleShowLoginOrSignup}
+            />
+          )}
         </ModalContent>
       </Modal>
     </>

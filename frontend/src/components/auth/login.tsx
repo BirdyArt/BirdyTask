@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   FormErrorMessage,
@@ -21,7 +22,13 @@ import { getLoggedInUserInfo } from "../../api/users";
 import { useState } from "react";
 import { Eye, EyeClosed } from "@phosphor-icons/react";
 
-const Login = ({ onClose }: { onClose: () => void }) => {
+const Login = ({
+  onClose,
+  handleShowLoginOrSignup,
+}: {
+  onClose: () => void;
+  handleShowLoginOrSignup: () => void;
+}) => {
   const [show, setShow] = useState(false);
   const toast = useToast();
   const color = useColorModeValue("primary.900", "secondary");
@@ -57,16 +64,6 @@ const Login = ({ onClose }: { onClose: () => void }) => {
             isClosable: true,
           });
           break;
-        case 409:
-          toast({
-            title: "User already exists.",
-            description:
-              "Please try different email or login in existing account.",
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
-          break;
         default:
           toast({
             title: "Unknown error occurred.",
@@ -87,7 +84,7 @@ const Login = ({ onClose }: { onClose: () => void }) => {
       <ModalCloseButton />
       <ModalBody>
         Please provide your credentials to login.
-        <FormControl isInvalid={!!errors.email || !!errors.password}>
+        <FormControl isInvalid={Object.keys(errors).length > 0}>
           <Input
             id="email"
             mt={2}
@@ -159,6 +156,12 @@ const Login = ({ onClose }: { onClose: () => void }) => {
             {errors.password && errors.password.message?.toString()}
           </FormErrorMessage>
         </FormControl>
+        <Box pt={2} textAlign="center">
+          Don't have an account?{" "}
+          <Button variant="link" onClick={handleShowLoginOrSignup}>
+            Sign up
+          </Button>
+        </Box>
       </ModalBody>
       <ModalFooter>
         <Button mr={3} onClick={onClose}>
