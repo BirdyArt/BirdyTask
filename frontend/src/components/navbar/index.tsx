@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { List, X } from "@phosphor-icons/react";
 import { useState } from "react";
-import Login from "../auth";
+import Auth from "../auth";
 import ColorModeSwitch from "../color-mode-switch";
 
 const NavBar = () => {
@@ -90,7 +90,7 @@ const NavBar = () => {
           direction={["column", "column", "row", "row"]}
           pt={[4, 4, 0, 0]}
         >
-          {isMobile ? <Login /> : null}
+          {isMobile ? <Auth setIsOpen={setIsOpen} /> : null}
           <Link fontSize={22} href={"/"}>
             Backlog
           </Link>
@@ -118,7 +118,7 @@ const NavBar = () => {
       {isMobile ? null : (
         <Flex>
           <ColorModeSwitch />
-          <Login />
+          <Auth />
         </Flex>
       )}
     </Flex>

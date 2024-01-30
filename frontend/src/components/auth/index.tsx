@@ -12,6 +12,7 @@ import {
   MenuGroup,
   Icon,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import Login from "./login";
 import { useEffect, useState } from "react";
@@ -23,10 +24,12 @@ import { axios } from "../../api/axios";
 import { getLoggedInUserInfo } from "../../api/users";
 import { useForm } from "react-hook-form";
 
-const Auth = () => {
+const Auth = ({ setIsOpen }: { setIsOpen?: (value: boolean) => void }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLogin, setIsLogin] = useState(true);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const color = useColorModeValue("secondary", "primary.900");
+  const colorHover = useColorModeValue("primary.300", "primary.800");
   const toast = useToast();
   const { reset } = useForm();
 
@@ -63,19 +66,26 @@ const Auth = () => {
   const handleLogout = () => {
     localStorage.removeItem("access_token");
     setUserInfo({});
+    setIsOpen && setIsOpen(false);
   };
 
   return (
     <>
       <Box pb={2}>
         {firstName && lastName ? (
-          <Menu>
+          <Menu placement="bottom">
             <MenuButton as={Button}>Profile</MenuButton>
-            <MenuList>
+            <MenuList backgroundColor={color}>
               <MenuGroup title={`Hi ${firstName} ${lastName}!`}>
                 <MenuItem
                   icon={<Icon fontSize={24} weight="bold" as={SignOut} />}
                   onClick={handleLogout}
+                  backgroundColor={color}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: colorHover,
+                    },
+                  }}
                 >
                   Logout
                 </MenuItem>
@@ -88,16 +98,18 @@ const Auth = () => {
       </Box>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent mx={2}>
           {isLogin ? (
             <Login
               onClose={onClose}
               handleShowLoginOrSignup={handleShowLoginOrSignup}
+              setIsOpen={setIsOpen}
             />
           ) : (
             <Signup
               onClose={onClose}
               handleShowLoginOrSignup={handleShowLoginOrSignup}
+              setIsOpen={setIsOpen}
             />
           )}
         </ModalContent>

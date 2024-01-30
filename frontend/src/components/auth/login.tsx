@@ -27,9 +27,11 @@ import { userInfoState } from "../../state/user-info/UserInfoState";
 const Login = ({
   onClose,
   handleShowLoginOrSignup,
+  setIsOpen,
 }: {
   onClose: () => void;
   handleShowLoginOrSignup: () => void;
+  setIsOpen?: (value: boolean) => void;
 }) => {
   const [show, setShow] = useState(false);
   const toast = useToast();
@@ -54,6 +56,7 @@ const Login = ({
       localStorage.setItem("access_token", `Bearer ${access_token}`);
       const user = await getLoggedInUserInfo();
       setUserInfo(user);
+      if (setIsOpen) setIsOpen(false);
       onClose();
     } catch (error: any) {
       switch (error.response.status) {
