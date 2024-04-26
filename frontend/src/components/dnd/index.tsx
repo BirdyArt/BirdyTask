@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { DndContext } from "@dnd-kit/core";
-import Droppable from "./Droppable";
-import Draggable from "./Draggable";
 import { Grid } from "@chakra-ui/react";
+import Task from "./Task";
+import TaskColumn from "./TaskColumn";
 
 const Dnd = () => {
   const containers = ["New", "Active", "Closed"];
   const [parent, setParent] = useState("New");
-  const draggableMarkup = <Draggable id="draggable">Drag me</Draggable>;
+  const draggableMarkup = <Task id="draggable">Task</Task>;
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
       <Grid templateColumns="repeat(3, 1fr)" gap={6} mx={8}>
         {containers.map((id) => (
-          <Droppable key={id} id={id}>
+          <TaskColumn key={id} id={id}>
             {parent === id ? draggableMarkup : null}
-          </Droppable>
+          </TaskColumn>
         ))}
       </Grid>
     </DndContext>
