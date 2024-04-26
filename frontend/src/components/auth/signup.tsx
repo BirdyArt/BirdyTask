@@ -16,13 +16,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { signup } from "../../api/auth";
-import { axios } from "../../api/axios";
-import { getLoggedInUserInfo } from "../../api/users";
 import { useState } from "react";
 import { Eye, EyeClosed } from "@phosphor-icons/react";
 import { useSetRecoilState } from "recoil";
 import { userInfoState } from "../../state/user-info/UserInfoState";
+import { client } from "../../api/birdy-task-api";
 
 const Signup = ({
   onClose,
@@ -48,16 +46,19 @@ const Signup = ({
 
   const onSubmit = async (values: any) => {
     try {
-      const { access_token } = await signup({
+      const { data } = await client.signup(null, {
         firstName: values.first,
         lastName: values.last,
         email: values.email,
         password: values.password,
       });
-      axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+      const { access_token }: any = data;
+      client.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${access_token}`;
       localStorage.setItem("access_token", `Bearer ${access_token}`);
-      const user = await getLoggedInUserInfo();
-      setUserInfo(user);
+      const user = await client.getMe();
+      setUserInfo(user.data);
       if (setIsOpen) setIsOpen(false);
       onClose();
     } catch (error: any) {

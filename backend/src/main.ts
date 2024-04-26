@@ -1,9 +1,18 @@
 import { NestFactory } from "@nestjs/core";
-import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
+import {
+  SwaggerModule,
+  DocumentBuilder,
+  SwaggerDocumentOptions,
+} from "@nestjs/swagger";
 import { AppModule } from "./app.module";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: ["http://localhost:5174", "http://localhost:4173"],
+    credentials: true,
+  });
 
   const config = new DocumentBuilder()
     .setTitle("BirtyTask API")
@@ -11,13 +20,14 @@ async function bootstrap() {
     .setVersion("1.0")
     .addTag("birdytask")
     .build();
-  const document = SwaggerModule.createDocument(app, config);
+
+  const options: SwaggerDocumentOptions = {
+    operationIdFactory: (_: string, methodKey: string) => methodKey,
+  };
+
+  const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup("api", app, document);
 
-  app.enableCors({
-    origin: "http://localhost:5174",
-    credentials: true,
-  });
   await app.listen(3000);
 }
 bootstrap();

@@ -20,9 +20,8 @@ import Signup from "./signup";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../../state/user-info/UserInfoState";
 import { SignOut } from "@phosphor-icons/react";
-import { axios } from "../../api/axios";
-import { getLoggedInUserInfo } from "../../api/users";
 import { useForm } from "react-hook-form";
+import { client } from "../../api/birdy-task-api";
 
 const Auth = ({ setIsOpen }: { setIsOpen?: (value: boolean) => void }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,17 +31,16 @@ const Auth = ({ setIsOpen }: { setIsOpen?: (value: boolean) => void }) => {
   const colorHover = useColorModeValue("primary.300", "primary.800");
   const toast = useToast();
   const { reset } = useForm();
-
   const { firstName, lastName } = userInfo;
 
   useEffect(() => {
     (async () => {
       if (localStorage.getItem("access_token")) {
         try {
-          axios.defaults.headers.common["Authorization"] =
+          client.defaults.headers.common["Authorization"] =
             localStorage.getItem("access_token");
-          const user = await getLoggedInUserInfo();
-          setUserInfo(user);
+          const user = await client.getMe();
+          setUserInfo(user.data);
         } catch (error) {
           toast({
             title: "Unknown error occurred.",

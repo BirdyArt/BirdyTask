@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "generate:types": "npx openapi-typescript http://localhost:3000/api-json --output src/types/api.ts"
+    "pull:types": "npx openapicmd typegen http://localhost:3000/api-json > src/types/openapi.d.ts"
   },
   "dependencies": {
     "@chakra-ui/anatomy": "^2.2.2",
@@ -20,6 +20,7 @@
     "@phosphor-icons/react": "^2.1.5",
     "axios": "^1.6.8",
     "framer-motion": "^10.18.0",
+    "openapi-client-axios": "^7.5.4",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "react-hook-form": "^7.51.3",
