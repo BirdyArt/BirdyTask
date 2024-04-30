@@ -8,4 +8,8 @@ export class EditTaskDto {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @IsString()
+  @IsOptional()
+  status?: string;
 }
