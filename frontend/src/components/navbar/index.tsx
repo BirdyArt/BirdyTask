@@ -14,12 +14,15 @@ import { List, X } from "@phosphor-icons/react";
 import { useState } from "react";
 import Auth from "../auth";
 import ColorModeSwitch from "../color-mode-switch";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "../../state/user-info/UserInfoState";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const isMobile = useBreakpointValue({ base: true, md: false });
   const color = useColorModeValue("primary.900", "secondary");
+  const userInfo = useRecoilValue(userInfoState);
 
   return (
     <Flex
@@ -91,9 +94,11 @@ const NavBar = () => {
           pt={[4, 4, 0, 0]}
         >
           {isMobile ? <Auth setIsOpen={setIsOpen} /> : null}
-          <Link fontSize={22} href={"/"}>
-            Backlog
-          </Link>
+          {Object.keys(userInfo).length !== 0 ? (
+            <Link fontSize={22} href={"/"}>
+              Backlog
+            </Link>
+          ) : null}
           <Flex
             align="center"
             justify="center"
@@ -110,9 +115,11 @@ const NavBar = () => {
               alt="BirdyTask logo"
             />
           </Flex>
-          <Link fontSize={22} href={"/tasks"}>
-            Taskboard
-          </Link>
+          {Object.keys(userInfo).length !== 0 ? (
+            <Link fontSize={22} href={"/tasks"}>
+              Taskboard
+            </Link>
+          ) : null}
         </Stack>
       </Box>
       {isMobile ? null : (
