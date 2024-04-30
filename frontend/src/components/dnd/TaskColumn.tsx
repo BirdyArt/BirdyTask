@@ -1,9 +1,11 @@
 import { Box, GridItem } from "@chakra-ui/react";
 import { useDroppable } from "@dnd-kit/core";
+import SortableTask from "./SortableTask";
+import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 
-const Droppable = (props: any) => {
+const TaskColumn = ({ id, items }: { id: string; items: any }) => {
   const { isOver, setNodeRef } = useDroppable({
-    id: props.id,
+    id,
   });
 
   return (
@@ -15,11 +17,15 @@ const Droppable = (props: any) => {
       ref={setNodeRef}
     >
       <Box textAlign="center" fontSize={"larger"} mt={2}>
-        {props.id}
+        {id}
       </Box>
-      {props.children}
+      <SortableContext id={id} items={items} strategy={rectSortingStrategy}>
+        {items.map((item: any) => (
+          <SortableTask key={item} id={item} />
+        ))}
+      </SortableContext>
     </GridItem>
   );
 };
 
-export default Droppable;
+export default TaskColumn;

@@ -1,30 +1,29 @@
 import { Box } from "@chakra-ui/react";
-import { useDraggable } from "@dnd-kit/core";
+import { UniqueIdentifier } from "@dnd-kit/core";
 
-const Draggable = (props: any) => {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: props.id,
-  });
-
+const Task = ({
+  id,
+  dragOverlay,
+}: {
+  id: UniqueIdentifier;
+  dragOverlay?: boolean;
+}) => {
   return (
     <Box
-      ref={setNodeRef}
       width={`calc(100% - 16px)`}
-      {...listeners}
-      {...attributes}
       sx={{
-        transform: `translate3d(${transform?.x}px, ${transform?.y}px, 0)`,
         borderRadius: "12px",
         bg: "secondary",
         textAlign: "center",
         color: "primary.900",
+        cursor: dragOverlay ? "grabbing" : "grab",
         p: 2,
         m: 2,
       }}
     >
-      {props.children}
+      Task {id}
     </Box>
   );
 };
 
-export default Draggable;
+export default Task;
