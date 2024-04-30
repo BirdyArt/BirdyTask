@@ -56,10 +56,18 @@ const Login = ({
       ] = `Bearer ${access_token}`;
       localStorage.setItem("access_token", `Bearer ${access_token}`);
       const user = await client.getMe();
+      // await client.createTask(null, {
+      //   title: "Test Task",
+      //   description: "This is a test task.",
+      //   status: "new",
+      // });
+      const tasks = await client.getTasks();
+      console.log(tasks);
       setUserInfo(user.data);
       if (setIsOpen) setIsOpen(false);
       onClose();
     } catch (error: any) {
+      console.log(error);
       switch (error.response.status) {
         case 401:
           toast({

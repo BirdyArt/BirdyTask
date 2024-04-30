@@ -30,7 +30,7 @@ model Task {
   updatedAt DateTime @updatedAt
 
   title       String
-  status      String
+  status      String  @default("new")
   description String?
 
   userId Int

@@ -16,11 +16,13 @@ declare namespace Components {
         }
         export interface CreateTaskDto {
             title: string;
+            status: string;
             description?: string;
         }
         export interface EditTaskDto {
             title?: string;
             description?: string;
+            status?: string;
         }
         export interface EditUserDto {
             email?: string;
