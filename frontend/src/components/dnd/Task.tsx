@@ -4,9 +4,11 @@ import { UniqueIdentifier } from "@dnd-kit/core";
 const Task = ({
   id,
   dragOverlay,
+  task,
 }: {
   id: UniqueIdentifier;
   dragOverlay?: boolean;
+  task?: any;
 }) => {
   return (
     <Box

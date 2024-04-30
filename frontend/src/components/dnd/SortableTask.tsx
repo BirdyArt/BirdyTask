@@ -3,7 +3,7 @@ import Task from "./Task";
 import { Box } from "@chakra-ui/react";
 import { CSS } from "@dnd-kit/utilities";
 
-const SortableTask = ({ id }: { id: string }) => {
+const SortableTask = ({ id, task }: { id: string; task: any }) => {
   const {
     attributes,
     listeners,
@@ -21,7 +21,7 @@ const SortableTask = ({ id }: { id: string }) => {
 
   return (
     <Box style={style} ref={setNodeRef} {...attributes} {...listeners}>
-      <Task id={id} />
+      <Task id={id} task={task} />
     </Box>
   );
 };

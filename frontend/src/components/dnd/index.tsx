@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DndContext,
   DragOverlay,
@@ -8,19 +8,22 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { Grid } from "@chakra-ui/react";
+import { Grid, useToast } from "@chakra-ui/react";
 import Task from "./Task";
 import TaskColumn from "./TaskColumn";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { arrayMove, insertAtIndex, removeAtIndex } from "../../utils";
+import { client } from "../../api/birdy-task-api";
 
 const Dnd = () => {
   const [itemGroups, setItemGroups] = useState<any>({
-    new: ["1", "2", "3"],
-    active: ["4", "5", "6"],
-    closed: ["7", "8", "9"],
+    new: [],
+    active: [],
+    closed: [],
   });
-  const [activeId, setActiveId] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [activeTask, setActiveTask] = useState<any>(null);
+  const toast = useToast();
 
   const sensors = useSensors(
     useSensor(MouseSensor),
@@ -30,9 +33,38 @@ const Dnd = () => {
     })
   );
 
-  const handleDragStart = ({ active }: any) => setActiveId(active.id);
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const { data }: any = await client.getTasks();
+        let tasksSortedInGroups = itemGroups;
+        data.forEach((task: any) =>
+          tasksSortedInGroups[task.status].push(task)
+        );
+        setItemGroups(tasksSortedInGroups);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        toast({
+          title: "Unknown error occurred.",
+          description: "Please try again later.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    })();
+  }, []);
 
-  const handleDragCancel = () => setActiveId(null);
+  const handleDragStart = ({ active }: any) => {
+    const activeItem = itemGroups[
+      active.data.current.sortable.containerId
+    ].find((item: any) => item.id === active.id);
+    setActiveTask(activeItem);
+  };
+
+  const handleDragCancel = () => setActiveTask(null);
 
   const handleDragOver = ({ active, over }: any) => {
     const overId = over?.id;
@@ -51,14 +83,13 @@ const Dnd = () => {
           over.id in itemGroups
             ? itemGroups[overContainer].length + 1
             : over.data.current.sortable.index;
-
         return moveBetweenContainers(
           itemGroups,
           activeContainer,
           activeIndex,
           overContainer,
           overIndex,
-          active.id
+          activeTask
         );
       });
     }
@@ -66,7 +97,7 @@ const Dnd = () => {
 
   const handleDragEnd = ({ active, over }: any) => {
     if (!over) {
-      setActiveId(null);
+      setActiveTask(null);
       return;
     }
 
@@ -97,7 +128,7 @@ const Dnd = () => {
             activeIndex,
             overContainer,
             overIndex,
-            active.id
+            activeTask
           );
         }
 
@@ -105,7 +136,7 @@ const Dnd = () => {
       });
     }
 
-    setActiveId(null);
+    setActiveTask(null);
   };
 
   const moveBetweenContainers = (
@@ -123,7 +154,7 @@ const Dnd = () => {
     };
   };
 
-  return (
+  return loading ? null : (
     <Grid templateColumns="repeat(3, 1fr)" gap={6} mx={8}>
       <DndContext
         sensors={sensors}
@@ -136,7 +167,7 @@ const Dnd = () => {
           <TaskColumn id={group} items={itemGroups[group]} key={group} />
         ))}
         <DragOverlay>
-          {activeId ? <Task id={activeId} dragOverlay /> : null}
+          {activeTask ? <Task id={activeTask.id} dragOverlay /> : null}
         </DragOverlay>
       </DndContext>
     </Grid>

@@ -21,7 +21,7 @@ const TaskColumn = ({ id, items }: { id: string; items: any }) => {
       </Box>
       <SortableContext id={id} items={items} strategy={rectSortingStrategy}>
         {items.map((item: any) => (
-          <SortableTask key={item} id={item} />
+          <SortableTask key={item.id} id={item.id} task={item} />
         ))}
       </SortableContext>
     </GridItem>
