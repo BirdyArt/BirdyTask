@@ -5,6 +5,7 @@ import {
   SwaggerDocumentOptions,
 } from "@nestjs/swagger";
 import { AppModule } from "./app.module";
+import { PrismaModel } from "./gen";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -23,6 +24,7 @@ async function bootstrap() {
 
   const options: SwaggerDocumentOptions = {
     operationIdFactory: (_: string, methodKey: string) => methodKey,
+    extraModels: [...PrismaModel.extraModels],
   };
 
   const document = SwaggerModule.createDocument(app, config, options);

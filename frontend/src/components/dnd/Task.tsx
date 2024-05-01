@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { UniqueIdentifier } from "@dnd-kit/core";
+import { Components } from "../../types/openapi";
 
 const Task = ({
   id,
@@ -8,7 +9,7 @@ const Task = ({
 }: {
   id: UniqueIdentifier;
   dragOverlay?: boolean;
-  task?: any;
+  task?: Components.Schemas.Task;
 }) => {
   return (
     <Box

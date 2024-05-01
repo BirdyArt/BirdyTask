@@ -29,12 +29,33 @@ declare namespace Components {
             firstName?: string;
             lastName?: string;
         }
+        export interface Task {
+            id: number;
+            createdAt: string; // date-time
+            updatedAt: string; // date-time
+            title: string;
+            status: string;
+            description?: string;
+            userId: number;
+            user: User;
+        }
+        export interface User {
+            id: number;
+            createdAt: string; // date-time
+            updatedAt: string; // date-time
+            email: string;
+            hash: string;
+            firstName?: string;
+            lastName?: string;
+            tasks: Task[];
+        }
     }
 }
 declare namespace Paths {
     namespace CreateTask {
         export type RequestBody = Components.Schemas.CreateTaskDto;
         namespace Responses {
+            export type $200 = Components.Schemas.Task;
             export interface $201 {
             }
         }
@@ -67,14 +88,12 @@ declare namespace Paths {
     namespace EditUser {
         export type RequestBody = Components.Schemas.EditUserDto;
         namespace Responses {
-            export interface $200 {
-            }
+            export type $200 = Components.Schemas.User;
         }
     }
     namespace GetMe {
         namespace Responses {
-            export interface $200 {
-            }
+            export type $200 = Components.Schemas.User;
         }
     }
     namespace GetTaskById {
@@ -85,14 +104,12 @@ declare namespace Paths {
             id: Parameters.Id;
         }
         namespace Responses {
-            export interface $200 {
-            }
+            export type $200 = Components.Schemas.Task;
         }
     }
     namespace GetTasks {
         namespace Responses {
-            export interface $200 {
-            }
+            export type $200 = Components.Schemas.Task[];
         }
     }
     namespace Signin {
@@ -143,7 +160,7 @@ export interface OperationMethods {
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.CreateTask.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.CreateTask.Responses.$201>
+  ): OperationResponse<Paths.CreateTask.Responses.$200 | Paths.CreateTask.Responses.$201>
   /**
    * getTaskById
    */
@@ -223,7 +240,7 @@ export interface PathsDictionary {
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.CreateTask.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.CreateTask.Responses.$201>
+    ): OperationResponse<Paths.CreateTask.Responses.$200 | Paths.CreateTask.Responses.$201>
   }
   ['/tasks/{id}']: {
     /**

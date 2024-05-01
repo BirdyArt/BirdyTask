@@ -2,8 +2,15 @@ import { useSortable } from "@dnd-kit/sortable";
 import Task from "./Task";
 import { Box } from "@chakra-ui/react";
 import { CSS } from "@dnd-kit/utilities";
+import { Components } from "../../types/openapi";
 
-const SortableTask = ({ id, task }: { id: string; task: any }) => {
+const SortableTask = ({
+  id,
+  task,
+}: {
+  id: string;
+  task: Components.Schemas.Task;
+}) => {
   const {
     attributes,
     listeners,

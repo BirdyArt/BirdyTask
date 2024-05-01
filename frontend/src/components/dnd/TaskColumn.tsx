@@ -2,8 +2,15 @@ import { Box, GridItem } from "@chakra-ui/react";
 import { useDroppable } from "@dnd-kit/core";
 import SortableTask from "./SortableTask";
 import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
+import { Components } from "../../types/openapi";
 
-const TaskColumn = ({ id, items }: { id: string; items: any }) => {
+const TaskColumn = ({
+  id,
+  items,
+}: {
+  id: string;
+  items: Components.Schemas.Task[];
+}) => {
   const { isOver, setNodeRef } = useDroppable({
     id,
   });

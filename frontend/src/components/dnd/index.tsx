@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import {
   DndContext,
+  DragEndEvent,
+  DragOverEvent,
   DragOverlay,
+  DragStartEvent,
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
@@ -14,6 +17,7 @@ import TaskColumn from "./TaskColumn";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { arrayMove, insertAtIndex, removeAtIndex } from "../../utils";
 import { client } from "../../api/birdy-task-api";
+import { Components } from "../../types/openapi";
 
 const Dnd = () => {
   const [itemGroups, setItemGroups] = useState<any>({
@@ -22,7 +26,9 @@ const Dnd = () => {
     closed: [],
   });
   const [loading, setLoading] = useState(false);
-  const [activeTask, setActiveTask] = useState<any>(null);
+  const [activeTask, setActiveTask] = useState<Components.Schemas.Task | null>(
+    null
+  );
   const toast = useToast();
 
   const sensors = useSensors(
@@ -37,11 +43,9 @@ const Dnd = () => {
     (async () => {
       try {
         setLoading(true);
-        const { data }: any = await client.getTasks();
+        const { data } = await client.getTasks();
         let tasksSortedInGroups = itemGroups;
-        data.forEach((task: any) =>
-          tasksSortedInGroups[task.status].push(task)
-        );
+        data.forEach((task) => tasksSortedInGroups[task.status].push(task));
         setItemGroups(tasksSortedInGroups);
         setLoading(false);
       } catch (error) {
@@ -57,32 +61,32 @@ const Dnd = () => {
     })();
   }, []);
 
-  const handleDragStart = ({ active }: any) => {
+  const handleDragStart = ({ active }: DragStartEvent) => {
     const activeItem = itemGroups[
-      active.data.current.sortable.containerId
+      active.data.current?.sortable.containerId
     ].find((item: any) => item.id === active.id);
     setActiveTask(activeItem);
   };
 
   const handleDragCancel = () => setActiveTask(null);
 
-  const handleDragOver = ({ active, over }: any) => {
+  const handleDragOver = ({ active, over }: DragOverEvent) => {
     const overId = over?.id;
 
     if (!overId) {
       return;
     }
 
-    const activeContainer = active.data.current.sortable.containerId;
+    const activeContainer = active.data.current?.sortable.containerId;
     const overContainer: string =
       over.data.current?.sortable.containerId || over.id;
     if (activeContainer !== overContainer) {
       setItemGroups((itemGroups: any) => {
-        const activeIndex = active.data.current.sortable.index;
+        const activeIndex = active.data.current?.sortable.index;
         const overIndex =
           over.id in itemGroups
             ? itemGroups[overContainer].length + 1
-            : over.data.current.sortable.index;
+            : over.data.current?.sortable.index;
         return moveBetweenContainers(
           itemGroups,
           activeContainer,
@@ -95,20 +99,20 @@ const Dnd = () => {
     }
   };
 
-  const handleDragEnd = ({ active, over }: any) => {
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
     if (!over) {
       setActiveTask(null);
       return;
     }
 
     if (active.id !== over.id) {
-      const activeContainer = active.data.current.sortable.containerId;
+      const activeContainer = active.data.current?.sortable.containerId;
       const overContainer = over.data.current?.sortable.containerId || over.id;
-      const activeIndex = active.data.current.sortable.index;
+      const activeIndex = active.data.current?.sortable.index;
       const overIndex =
         over.id in itemGroups
           ? itemGroups[overContainer].length + 1
-          : over.data.current.sortable.index;
+          : over.data.current?.sortable.index;
 
       setItemGroups((itemGroups: any) => {
         let newItems;
@@ -140,12 +144,12 @@ const Dnd = () => {
   };
 
   const moveBetweenContainers = (
-    items: any,
+    items: Components.Schemas.Task[],
     activeContainer: any,
     activeIndex: any,
     overContainer: any,
     overIndex: any,
-    item: any
+    item: Components.Schemas.Task | null
   ) => {
     return {
       ...items,
