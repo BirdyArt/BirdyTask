@@ -4,13 +4,7 @@ import { Box } from "@chakra-ui/react";
 import { CSS } from "@dnd-kit/utilities";
 import { Components } from "../../types/openapi";
 
-const SortableTask = ({
-  id,
-  task,
-}: {
-  id: string;
-  task: Components.Schemas.Task;
-}) => {
+const SortableTask = ({ task }: { task: Components.Schemas.Task }) => {
   const {
     attributes,
     listeners,
@@ -18,7 +12,7 @@ const SortableTask = ({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id });
+  } = useSortable({ id: task.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -28,7 +22,7 @@ const SortableTask = ({
 
   return (
     <Box style={style} ref={setNodeRef} {...attributes} {...listeners}>
-      <Task id={id} task={task} />
+      <Task task={task} />
     </Box>
   );
 };

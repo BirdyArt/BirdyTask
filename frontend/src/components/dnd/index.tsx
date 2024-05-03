@@ -171,7 +171,7 @@ const Dnd = () => {
           <TaskColumn id={group} items={itemGroups[group]} key={group} />
         ))}
         <DragOverlay>
-          {activeTask ? <Task id={activeTask.id} dragOverlay /> : null}
+          {activeTask ? <Task task={activeTask} dragOverlay /> : null}
         </DragOverlay>
       </DndContext>
     </Grid>
