@@ -44,14 +44,19 @@ const Task = ({
               as={ClipboardText}
             />
             <Box>
-              <Heading size="sm">Task {id}</Heading>
+              <Heading fontSize={"18px"}>
+                Task {id?.toString().padStart(4, "0")}
+              </Heading>
               <Box>{title}</Box>
             </Box>
           </Flex>
           <IconButton
-            variant="ghost"
-            colorScheme="gray"
             aria-label="See menu"
+            bgColor={"transparent"}
+            _hover={{
+              bgColor: colorMode === "light" ? "primary.300" : "primary.600",
+            }}
+            color={colorMode === "light" ? "primary.800" : "primary.100"}
             icon={
               <Icon
                 fontSize={32}

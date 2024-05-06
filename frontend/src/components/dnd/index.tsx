@@ -23,6 +23,7 @@ const Dnd = () => {
   const [itemGroups, setItemGroups] = useState<any>({
     new: [],
     active: [],
+    review: [],
     closed: [],
   });
   const [loading, setLoading] = useState(false);
@@ -159,7 +160,7 @@ const Dnd = () => {
   };
 
   return loading ? null : (
-    <Grid templateColumns="repeat(3, 1fr)" gap={6} mx={8}>
+    <Grid templateColumns="repeat(4, 1fr)" gap={6} mx={8}>
       <DndContext
         sensors={sensors}
         onDragStart={handleDragStart}
