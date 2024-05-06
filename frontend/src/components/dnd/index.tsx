@@ -8,6 +8,7 @@ import {
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
+  UniqueIdentifier,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -67,6 +68,24 @@ const Dnd = () => {
       active.data.current?.sortable.containerId
     ].find((item: any) => item.id === active.id);
     setActiveTask(activeItem);
+  };
+
+  const updateTask = async (containerId: UniqueIdentifier) => {
+    try {
+      await client.editTaskById(activeTask?.id, {
+        title: activeTask?.title,
+        description: activeTask?.description,
+        status: containerId.toString(),
+      });
+    } catch (error) {
+      toast({
+        title: "Unknown error occurred.",
+        description: "Please try again later.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   };
 
   const handleDragCancel = () => setActiveTask(null);
@@ -136,11 +155,9 @@ const Dnd = () => {
             activeTask
           );
         }
-
         return newItems;
       });
     }
-
     setActiveTask(null);
   };
 
@@ -152,6 +169,8 @@ const Dnd = () => {
     overIndex: any,
     item: Components.Schemas.Task | null
   ) => {
+    updateTask(overContainer);
+
     return {
       ...items,
       [activeContainer]: removeAtIndex(items[activeContainer], activeIndex),
