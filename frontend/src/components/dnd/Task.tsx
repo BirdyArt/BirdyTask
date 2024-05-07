@@ -20,7 +20,10 @@ const Task = ({
   task?: Components.Schemas.Task;
 }) => {
   const { colorMode } = useColorMode();
-  const { id, title, description } = task || { title: "", description: "" };
+  const { id, title, description, createdAt } = task || {
+    title: "",
+    description: "",
+  };
 
   return (
     <Card
@@ -68,7 +71,12 @@ const Task = ({
           />
         </Flex>
       </CardHeader>
-      <CardBody>{description || "No description"}</CardBody>
+      <CardBody>
+        <Box mb={1}>
+          Created at: {new Date(createdAt || "")?.toLocaleString()}
+        </Box>
+        <Box>{description || "No description"}</Box>
+      </CardBody>
     </Card>
   );
 };

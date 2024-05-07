@@ -56,11 +56,6 @@ const Login = ({
       ] = `Bearer ${access_token}`;
       localStorage.setItem("access_token", `Bearer ${access_token}`);
       const user = await client.getMe();
-      // await client.createTask(null, {
-      //   title: "Active Task",
-      //   description: "This is an active task.",
-      //   status: "active",
-      // });
       setUserInfo(user.data);
       if (setIsOpen) setIsOpen(false);
       onClose();

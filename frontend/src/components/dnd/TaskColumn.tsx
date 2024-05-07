@@ -1,15 +1,9 @@
-import {
-  Grid,
-  GridItem,
-  Icon,
-  IconButton,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Box, Grid, GridItem, useColorMode } from "@chakra-ui/react";
 import { useDroppable } from "@dnd-kit/core";
 import SortableTask from "./SortableTask";
 import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import { Components } from "../../types/openapi";
-import { Plus } from "@phosphor-icons/react";
+import CreateTask from "./CreateTask";
 
 const TaskColumn = ({
   id,
@@ -26,7 +20,7 @@ const TaskColumn = ({
   return (
     <GridItem
       w="100%"
-      h={`calc(${window.innerHeight}px - 180px)`}
+      h={`calc(${window.innerHeight}px - 165px)`}
       borderRadius={"12px"}
       ref={setNodeRef}
       bgColor={colorMode === "light" ? "primary.100" : "primary.800"}
@@ -42,27 +36,16 @@ const TaskColumn = ({
           {id}
         </GridItem>
         <GridItem textAlign={"end"}>
-          {id === "new" ? (
-            <IconButton
-              aria-label="Add task"
-              icon={<Icon fontSize={24} weight="bold" as={Plus} />}
-              size="sm"
-              mr={4}
-              bgColor={"transparent"}
-              _hover={{
-                bgColor: colorMode === "light" ? "primary.200" : "primary.700",
-              }}
-              color={colorMode === "light" ? "primary.800" : "primary.100"}
-              onClick={() => console.log("Add task")}
-            />
-          ) : null}
+          {id === "new" ? <CreateTask /> : null}
         </GridItem>
       </Grid>
-      <SortableContext id={id} items={items} strategy={rectSortingStrategy}>
-        {items.map((item: any) => (
-          <SortableTask key={item.id} task={item} />
-        ))}
-      </SortableContext>
+      <Box overflow={"auto"} h={`calc(${window.innerHeight}px - 216px)`}>
+        <SortableContext id={id} items={items} strategy={rectSortingStrategy}>
+          {items.map((item: Components.Schemas.Task) => (
+            <SortableTask key={item.id} task={item} />
+          ))}
+        </SortableContext>
+      </Box>
     </GridItem>
   );
 };
