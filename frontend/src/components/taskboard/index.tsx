@@ -20,7 +20,7 @@ import { arrayMove, insertAtIndex, removeAtIndex } from "../../utils";
 import { client } from "../../api/birdy-task-api";
 import { Components } from "../../types/openapi";
 
-const Dnd = () => {
+const TaskBoard = () => {
   const [itemGroups, setItemGroups] = useState<any>({
     new: [],
     active: [],
@@ -198,4 +198,4 @@ const Dnd = () => {
   );
 };
 
-export default Dnd;
+export default TaskBoard;

@@ -1,7 +1,10 @@
 import { Box, Grid, GridItem, useColorMode } from "@chakra-ui/react";
 import { useDroppable } from "@dnd-kit/core";
 import SortableTask from "./SortableTask";
-import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { Components } from "../../types/openapi";
 import CreateTask from "./CreateTask";
 
@@ -40,7 +43,11 @@ const TaskColumn = ({
         </GridItem>
       </Grid>
       <Box overflow={"auto"} h={`calc(${window.innerHeight}px - 216px)`}>
-        <SortableContext id={id} items={items} strategy={rectSortingStrategy}>
+        <SortableContext
+          id={id}
+          items={items}
+          strategy={verticalListSortingStrategy}
+        >
           {items.map((item: Components.Schemas.Task) => (
             <SortableTask key={item.id} task={item} />
           ))}

@@ -1,11 +1,11 @@
 import { Box, useToast } from "@chakra-ui/react";
 import NavBar from "./components/navbar";
 import "@fontsource/staatliches";
-import Dnd from "./components/dnd";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "./state/user-info/UserInfoState";
 import { useEffect } from "react";
 import { client } from "./api/birdy-task-api";
+import TaskBoard from "./components/taskboard";
 
 function App() {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
@@ -37,7 +37,7 @@ function App() {
   return (
     <Box h={window.innerHeight}>
       <NavBar />
-      {Object.keys(userInfo).length !== 0 ? <Dnd /> : null}
+      {Object.keys(userInfo).length !== 0 ? <TaskBoard /> : null}
     </Box>
   );
 }
