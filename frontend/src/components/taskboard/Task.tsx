@@ -55,6 +55,7 @@ const Task = ({
           </Flex>
           <IconButton
             aria-label="See menu"
+            data-no-dnd="true"
             bgColor={"transparent"}
             _hover={{
               bgColor: colorMode === "light" ? "primary.300" : "primary.600",

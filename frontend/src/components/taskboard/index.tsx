@@ -6,8 +6,6 @@ import {
   DragOverlay,
   DragStartEvent,
   KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
   UniqueIdentifier,
   useSensor,
   useSensors,
@@ -16,7 +14,13 @@ import { Grid, useToast } from "@chakra-ui/react";
 import Task from "./Task";
 import TaskColumn from "./TaskColumn";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { arrayMove, insertAtIndex, removeAtIndex } from "../../utils";
+import {
+  MouseSensor,
+  TouchSensor,
+  arrayMove,
+  insertAtIndex,
+  removeAtIndex,
+} from "../../utils";
 import { client } from "../../api/birdy-task-api";
 import { Components } from "../../types/openapi";
 
