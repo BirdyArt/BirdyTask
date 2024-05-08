@@ -23,14 +23,11 @@ import {
 } from "../../utils";
 import { client } from "../../api/birdy-task-api";
 import { Components } from "../../types/openapi";
+import { useRecoilState } from "recoil";
+import { itemGroupsState } from "../../state/item-groups/ItemGroupsState";
 
 const TaskBoard = () => {
-  const [itemGroups, setItemGroups] = useState<any>({
-    new: [],
-    active: [],
-    review: [],
-    closed: [],
-  });
+  const [itemGroups, setItemGroups] = useRecoilState(itemGroupsState);
   const [loading, setLoading] = useState(false);
   const [activeTask, setActiveTask] = useState<Components.Schemas.Task | null>(
     null
@@ -50,11 +47,12 @@ const TaskBoard = () => {
       try {
         setLoading(true);
         const { data } = await client.getTasks();
-        let tasksSortedInGroups = itemGroups;
+        let tasksSortedInGroups = structuredClone(itemGroups);
         data.forEach((task) => tasksSortedInGroups[task.status].push(task));
         setItemGroups(tasksSortedInGroups);
         setLoading(false);
       } catch (error) {
+        console.log(error);
         setLoading(false);
         toast({
           title: "Unknown error occurred.",

@@ -21,11 +21,14 @@ import {
 import { Plus } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
 import { client } from "../../api/birdy-task-api";
+import { useSetRecoilState } from "recoil";
+import { itemGroupsState } from "../../state/item-groups/ItemGroupsState";
 
 const CreateTask = () => {
   const { colorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  const setItemGroups = useSetRecoilState(itemGroupsState);
   const color = useColorModeValue("primary.900", "secondary");
   const {
     handleSubmit,
@@ -36,13 +39,20 @@ const CreateTask = () => {
 
   const onSubmit = async (values: any) => {
     try {
-      await client.createTask(null, {
+      const newTask = {
         title: values.title,
         description: values.description,
         status: values.status,
+      };
+      const { data } = await client.createTask(null, newTask);
+      setItemGroups((prev: any) => {
+        let newGroups = { ...prev };
+        newGroups["new"] = [...newGroups["new"], data];
+        return newGroups;
       });
       onClose();
     } catch (error: any) {
+      console.log(error);
       toast({
         title: "Unknown error occurred.",
         description: "Please try again later.",

@@ -12,10 +12,13 @@ import {
 import { Components } from "../../types/openapi";
 import { DotsThreeVertical, Pencil, Trash } from "@phosphor-icons/react";
 import { client } from "../../api/birdy-task-api";
+import { useSetRecoilState } from "recoil";
+import { itemGroupsState } from "../../state/item-groups/ItemGroupsState";
 
 const TaskActions = ({ task }: { task?: Components.Schemas.Task }) => {
   const { colorMode } = useColorMode();
-  const { id, title, description, createdAt } = task || {
+  const setItemGroups = useSetRecoilState(itemGroupsState);
+  const { id, title, description, createdAt, status } = task || {
     title: "",
     description: "",
   };
@@ -26,6 +29,13 @@ const TaskActions = ({ task }: { task?: Components.Schemas.Task }) => {
   const handleTaskDelete = async () => {
     try {
       await client.deleteTaskById(id);
+      setItemGroups((prev: any) => {
+        const newGroups = { ...prev };
+        newGroups[status || ""] = newGroups[status || ""].filter(
+          (t: Components.Schemas.Task) => t.id !== id
+        );
+        return newGroups;
+      });
     } catch (error: any) {
       toast({
         title: "Unknown error occurred.",
