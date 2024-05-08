@@ -6,11 +6,11 @@ import {
   Flex,
   Heading,
   Icon,
-  IconButton,
   useColorMode,
 } from "@chakra-ui/react";
 import { Components } from "../../types/openapi";
-import { ClipboardText, DotsThreeVertical } from "@phosphor-icons/react";
+import { ClipboardText } from "@phosphor-icons/react";
+import TaskActions from "./TaskActions";
 
 const Task = ({
   dragOverlay,
@@ -53,23 +53,7 @@ const Task = ({
               <Box>{title}</Box>
             </Box>
           </Flex>
-          <IconButton
-            aria-label="See menu"
-            data-no-dnd="true"
-            bgColor={"transparent"}
-            _hover={{
-              bgColor: colorMode === "light" ? "primary.300" : "primary.600",
-            }}
-            color={colorMode === "light" ? "primary.800" : "primary.100"}
-            icon={
-              <Icon
-                fontSize={32}
-                weight="bold"
-                color={colorMode === "light" ? "primary.900" : "primary.100"}
-                as={DotsThreeVertical}
-              />
-            }
-          />
+          <TaskActions task={task} />
         </Flex>
       </CardHeader>
       <CardBody>

@@ -69,7 +69,10 @@ const Auth = ({ setIsOpen }: { setIsOpen?: (value: boolean) => void }) => {
         )}
       </Box>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
-        <ModalOverlay />
+        <ModalOverlay
+          bg="blackAlpha.300"
+          backdropFilter="blur(3px) hue-rotate(180deg)"
+        />
         <ModalContent mx={2}>
           {isLogin ? (
             <Login
