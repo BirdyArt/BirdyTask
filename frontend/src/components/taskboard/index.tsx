@@ -172,11 +172,13 @@ const TaskBoard = () => {
     item: Components.Schemas.Task | null
   ) => {
     updateTask(overContainer);
+    let newItem = { ...item };
+    newItem.status = overContainer;
 
     return {
       ...items,
       [activeContainer]: removeAtIndex(items[activeContainer], activeIndex),
-      [overContainer]: insertAtIndex(items[overContainer], overIndex, item),
+      [overContainer]: insertAtIndex(items[overContainer], overIndex, newItem),
     };
   };
 

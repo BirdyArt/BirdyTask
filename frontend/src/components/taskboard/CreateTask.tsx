@@ -52,7 +52,6 @@ const CreateTask = () => {
       });
       onClose();
     } catch (error: any) {
-      console.log(error);
       toast({
         title: "Unknown error occurred.",
         description: "Please try again later.",
