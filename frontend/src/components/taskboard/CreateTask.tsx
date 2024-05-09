@@ -42,7 +42,7 @@ const CreateTask = () => {
       const newTask = {
         title: values.title,
         description: values.description,
-        status: values.status,
+        status: "new",
       };
       const { data } = await client.createTask(null, newTask);
       setItemGroups((prev: any) => {
@@ -92,10 +92,10 @@ const CreateTask = () => {
                 <Input
                   id="title"
                   mt={2}
-                  borderColor={errors.email ? "red.500" : color}
+                  borderColor={errors.title ? "red.500" : color}
                   sx={{
                     "&:focus": {
-                      borderColor: errors.email ? "red.500" : color,
+                      borderColor: errors.title ? "red.500" : color,
                     },
                   }}
                   variant="filled"
@@ -114,10 +114,10 @@ const CreateTask = () => {
                 <Textarea
                   id="description"
                   mt={2}
-                  borderColor={errors.email ? "red.500" : color}
+                  borderColor={errors.description ? "red.500" : color}
                   sx={{
                     "&:focus": {
-                      borderColor: errors.email ? "red.500" : color,
+                      borderColor: errors.description ? "red.500" : color,
                     },
                   }}
                   variant="filled"
