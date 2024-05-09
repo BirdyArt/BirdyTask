@@ -52,7 +52,6 @@ const TaskBoard = () => {
         setItemGroups(tasksSortedInGroups);
         setLoading(false);
       } catch (error) {
-        console.log(error);
         setLoading(false);
         toast({
           title: "Unknown error occurred.",
