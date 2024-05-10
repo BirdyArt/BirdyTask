@@ -19,14 +19,21 @@ function App() {
             localStorage.getItem("access_token");
           const { data } = await client.getMe();
           setUserInfo(data);
-        } catch (error) {
-          toast({
-            title: "Unknown error occurred.",
-            description: "Please try again later.",
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
+        } catch (error: any) {
+          switch (error.response.status) {
+            case 401:
+              localStorage.removeItem("access_token");
+              break;
+            default:
+              toast({
+                title: "Unknown error occurred.",
+                description: "Please try again later.",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              });
+              break;
+          }
         }
       } else {
         setUserInfo({});
