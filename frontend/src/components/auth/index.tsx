@@ -16,10 +16,11 @@ import {
 import Login from "./login";
 import { useState } from "react";
 import Signup from "./signup";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState } from "recoil";
 import { userInfoState } from "../../state/user-info/UserInfoState";
 import { SignOut } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
+import { itemGroupsState } from "../../state/item-groups/ItemGroupsState";
 
 const Auth = ({ setIsOpen }: { setIsOpen?: (value: boolean) => void }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,6 +30,7 @@ const Auth = ({ setIsOpen }: { setIsOpen?: (value: boolean) => void }) => {
   const colorHover = useColorModeValue("primary.300", "primary.800");
   const { reset } = useForm();
   const { firstName, lastName } = userInfo;
+  const resetGroups = useResetRecoilState(itemGroupsState);
 
   const handleShowLoginOrSignup = () => {
     reset();
@@ -38,6 +40,7 @@ const Auth = ({ setIsOpen }: { setIsOpen?: (value: boolean) => void }) => {
   const handleLogout = () => {
     localStorage.removeItem("access_token");
     setUserInfo({});
+    resetGroups();
     setIsOpen && setIsOpen(false);
   };
 
