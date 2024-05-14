@@ -52,9 +52,9 @@ export class AuthService {
     console.log(user);
     // if user doesn't exist throw an exception
     if (!user) throw new UnauthorizedException("Credentials are incorrect");
+    console.log(argon);
     // compare passwords
     const pwMatches = await argon.verify(user.hash, dto.password);
-    console.log(pwMatches);
     // if password incorrect throw an exception
     if (!pwMatches)
       throw new UnauthorizedException("Credentials are incorrect");
