@@ -42,12 +42,14 @@ export class AuthService {
     }
   }
   async signin(dto: AuthDto) {
+    console.log(dto);
     // find the user by email
     const user = await this.prisma.user.findUnique({
       where: {
         email: dto.email,
       },
     });
+    console.log(user);
     // if user doesn't exist throw an exception
     if (!user) throw new UnauthorizedException("Credentials are incorrect");
     // compare passwords
@@ -68,14 +70,10 @@ export class AuthService {
       email,
     };
 
-    console.log(this.config.get("JWT_SECRET"));
-
     const token = await this.jwt.signAsync(payload, {
       expiresIn: "10d",
       secret: this.config.get("JWT_SECRET"),
     });
-
-    console.log(token);
 
     return {
       access_token: token,
