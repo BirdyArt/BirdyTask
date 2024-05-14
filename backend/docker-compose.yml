@@ -33,7 +33,8 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: "postgresql://admin:password@dev-db:5432/birdy_task_dev?schema=public"
+      # DATABASE_URL: "postgresql://admin:password@dev-db:5432/birdy_task_dev?schema=public"
+      DATABASE_URL: "postgresql://birdyart:Ntktajyrf2!@birdy-task.postgres.database.azure.com:5432/birdy-task?schema=public"
     # Run a command against the development stage of the image
     command: pnpm start:dev:migrate
     ports:
