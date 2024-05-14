@@ -54,6 +54,7 @@ export class AuthService {
     if (!user) throw new UnauthorizedException("Credentials are incorrect");
     // compare passwords
     const pwMatches = await argon.verify(user.hash, dto.password);
+    console.log(pwMatches);
     // if password incorrect throw an exception
     if (!pwMatches)
       throw new UnauthorizedException("Credentials are incorrect");
@@ -65,6 +66,7 @@ export class AuthService {
     userId: number,
     email: string
   ): Promise<{ access_token: string }> {
+    console.log(userId, email);
     const payload = {
       sub: userId,
       email,
