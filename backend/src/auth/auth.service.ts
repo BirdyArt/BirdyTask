@@ -42,17 +42,14 @@ export class AuthService {
     }
   }
   async signin(dto: AuthDto) {
-    console.log(dto);
     // find the user by email
     const user = await this.prisma.user.findUnique({
       where: {
         email: dto.email,
       },
     });
-    console.log(user);
     // if user doesn't exist throw an exception
     if (!user) throw new UnauthorizedException("Credentials are incorrect");
-    console.log(argon);
     // compare passwords
     const pwMatches = await argon.verify(user.hash, dto.password);
     // if password incorrect throw an exception
@@ -66,7 +63,6 @@ export class AuthService {
     userId: number,
     email: string
   ): Promise<{ access_token: string }> {
-    console.log(userId, email);
     const payload = {
       sub: userId,
       email,
