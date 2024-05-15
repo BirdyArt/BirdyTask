@@ -6,7 +6,6 @@ import {
 } from "@nestjs/swagger";
 import { AppModule } from "./app.module";
 import { PrismaModel } from "./gen";
-import { ConfigService } from "@nestjs/config";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -30,10 +29,6 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup("api", app, document);
-
-  const jwtconfig = new ConfigService();
-
-  console.log(jwtconfig.get("JWT_SECRET"));
 
   await app.listen(80);
 }
