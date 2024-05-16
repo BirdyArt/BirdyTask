@@ -1,9 +1,11 @@
-name: Azure Container Apps Deploy
+name: Azure Container App Deploy
 
 on:
   push:
     branches:
       - main
+    paths:
+      - backend/**
 
 jobs:
   build:
