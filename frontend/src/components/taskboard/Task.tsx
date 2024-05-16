@@ -17,7 +17,7 @@ const Task = ({
   task,
 }: {
   dragOverlay?: boolean;
-  task?: Components.Schemas.Task;
+  task: Components.Schemas.Task;
 }) => {
   const { colorMode } = useColorMode();
   const { id, title, description, createdAt } = task || {
