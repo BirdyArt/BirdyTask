@@ -169,6 +169,17 @@ const Login = ({
             Sign up
           </Button>
         </Box>
+        <Box pt={2} textAlign="center">
+          Want to test it out?{" "}
+          <Button
+            variant="link"
+            onClick={() =>
+              onSubmit({ email: "test@test.ca", password: "test" })
+            }
+          >
+            Test It
+          </Button>
+        </Box>
       </ModalBody>
       <ModalFooter>
         <Button mr={3} onClick={onClose}>

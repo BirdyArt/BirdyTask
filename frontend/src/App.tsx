@@ -1,4 +1,4 @@
-import { Box, useToast } from "@chakra-ui/react";
+import { Box, Heading, useToast, Text } from "@chakra-ui/react";
 import NavBar from "./components/navbar";
 import "@fontsource/staatliches";
 import { useRecoilState } from "recoil";
@@ -44,7 +44,28 @@ function App() {
   return (
     <Box h={window.innerHeight}>
       <NavBar />
-      {Object.keys(userInfo).length !== 0 ? <TaskBoard /> : null}
+      {Object.keys(userInfo).length !== 0 ? (
+        <TaskBoard />
+      ) : (
+        <Box
+          display="flex"
+          height="calc(100% - 244px)"
+          flexDirection={"column"}
+          justifyContent={"center"}
+          mx={4}
+        >
+          <Heading fontSize={36} textAlign={"center"}>
+            Welcome to BirdyTask!
+          </Heading>
+          <Text fontSize={24} textAlign={"center"}>
+            Please login or signup to continue
+          </Text>
+          <Text fontSize={18} textAlign={"center"}>
+            ( if you just want to see how it works, please select "test it"
+            option in login dialog )
+          </Text>
+        </Box>
+      )}
     </Box>
   );
 }

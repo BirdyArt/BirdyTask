@@ -36,8 +36,8 @@ const theme = extendTheme({
     Modal,
   },
   config: {
-    initialColorMode: "system",
-    useSystemColorMode: true,
+    initialColorMode: "dark",
+    useSystemColorMode: false,
   },
 });
 

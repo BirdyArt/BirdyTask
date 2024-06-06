@@ -116,7 +116,7 @@ const NavBar = () => {
             />
           </Flex>
           {Object.keys(userInfo).length !== 0 ? (
-            <Link fontSize={22} href={"/tasks"}>
+            <Link fontSize={22} href={"/"}>
               Taskboard
             </Link>
           ) : null}
