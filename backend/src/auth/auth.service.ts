@@ -55,6 +55,24 @@ export class AuthService {
     // if password incorrect throw an exception
     if (!pwMatches)
       throw new UnauthorizedException("Credentials are incorrect");
+    // if user is test user delete all previously existing tasks and seed new ones
+    if (user.email === "test@test.ca") {
+      await this.prisma.task.deleteMany({ where: { userId: user.id } });
+      await this.prisma.task.createMany({
+        data: [
+          {
+            title: "Task 1",
+            description: "Description 1",
+            userId: user.id,
+          },
+          {
+            title: "Task 2",
+            description: "Description 2",
+            userId: user.id,
+          },
+        ],
+      });
+    }
     // return the saved user
     return this.signToken(user.id, user.email);
   }
